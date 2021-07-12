@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="QuadTreeLibrary">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../API/QuadTreeLibrary.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

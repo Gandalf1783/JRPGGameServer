@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaRPGGameServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaRPGGameServer_jar</output-path>
+    <root id="archive" name="JavaRPGGameServer.jar">
+      <element id="module-output" name="JavaRPGGameServer" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/QuadTreeLibrary.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/gdx.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jline-3.16.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jline-terminal-jna-3.20.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jna-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jansi-1.17.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/kryonet-2.21-all.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/mysql-connector-java-5.1.49.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

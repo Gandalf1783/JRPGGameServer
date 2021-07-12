@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jline-3.16.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../API/jline-3.16.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../API/jline-terminal-jna-3.20.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../API/jna-4.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
