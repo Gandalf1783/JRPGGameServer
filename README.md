@@ -22,6 +22,8 @@ QuadTreeLibrary (Mine, you can find the releases on my repo)
 
 ### Known Bugs:
   - The Tiles assigning to the correct Chunk does not work (has to be redone)
+  - Sending all Players to a new Player is not done correctly!
+
 
 ### Things to Work on: 
   - Security-Features during Login-Process
