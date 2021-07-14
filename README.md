@@ -11,12 +11,19 @@ This uses a Database where UUID's are saved and the SQL-Table Structure is not y
 
 Libraries you have to use:
 KryoNet-2.21-ALL
+
 JANSI-1.17.1
+
 JLINE-3.16.0
+
 JLINE-TERMINAL-JNA-3.20.0
+
 JNA-4.5.1
+
 MYSQL-CONNECTOR-5.1.49
+
 QuadTreeLibrary (Mine, you can find the releases on my repo)
+
 
 ---
 
