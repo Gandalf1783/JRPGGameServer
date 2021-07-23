@@ -3,17 +3,21 @@ package de.gandalf1783.gameserver.world;
 import de.gandalf1783.gameserver.entities.Entity;
 import de.gandalf1783.gameserver.inventory.Inventory;
 import de.gandalf1783.gameserver.threads.ConsoleRunnable;
+import de.gandalf1783.gameserver.tiles.Tile;
 import org.fusesource.jansi.Ansi;
 import de.gandalf1783.quadtree.Rectangle;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class World implements Serializable {
 
-    private int worldChunkSize = 500;
+    private int worldChunkSize = 50;
 
     // Chunks are saved in x/y dimensions, no height
     // We have 50 Chunks in each direction
@@ -33,9 +37,14 @@ public class World implements Serializable {
         boundaries = new Rectangle(worldChunkSize*16/2,worldChunkSize*16/2,worldChunkSize*16,worldChunkSize*16);
     }
 
+
+
+
+
     public static int[][] generateMap(long seed,int iterations) {
         Generation.SEED = seed;
         Generation.OCEAN_SEED = seed+1;
+
         double[][] landNoiseMap = Generation.generateNoiseMap(130,iterations);
         double[][] oceanNoiseMap = Generation.generateNoiseMap(120,iterations);
 
@@ -105,8 +114,7 @@ public class World implements Serializable {
         for(int tileX = (actualChunkX)*16; tileX < (1+actualChunkX)*16; tileX++) {
             chunkTileX = 0;
             for(int tileY = (actualChunkY)*16; tileY < (1+actualChunkY)*16; tileY++) {
-
-
+                
                 c.setBlock(chunkTileX, 0, chunkTileZ, 2); // Set Underlaying Structure as Rock
                 c.setBlock(chunkTileX, 1, chunkTileZ, tileMapFromNoiseGenerator[tileX][tileY]); // The one the player sees if isnt air!
 
@@ -134,20 +142,14 @@ public class World implements Serializable {
         c.setChunkX(x);
         c.setChunkY(y);
 
-        byte chunkTileX = 0, chunkTileZ = 0; // Only counts to 16, nothing more
+        for(byte tileInChunkZ = 0; tileInChunkZ < 16; tileInChunkZ++) {
+            for(byte tileInChunkX = 0; tileInChunkX < 16; tileInChunkX++) {
 
-        for(int tileX = (actualChunkX)*16; tileX < (1+actualChunkX)*16; tileX++) {
-            chunkTileX = 0;
-            for(int tileY = (actualChunkY)*16; tileY < (1+actualChunkY)*16; tileY++) {
+                int tile = tileMapFromNoiseGenerator[(actualChunkX*16) + tileInChunkX][(actualChunkY*16) + tileInChunkZ];
 
-
-                c.setBlock(chunkTileX, 0, chunkTileZ, 2); // Set Underlaying Structure as Rock
-                c.setBlock(chunkTileX, 1, chunkTileZ, tileMapFromNoiseGenerator[tileX][tileY]); // The one the player sees if isnt air!
-
-                chunkTileX++;
+                c.setBlock(tileInChunkX, 0, tileInChunkZ, 2);
+                c.setBlock(tileInChunkX, 1, tileInChunkZ, tile);
             }
-
-            chunkTileZ++;
         }
 
         chunks[actualChunkX][actualChunkY] = c; // Saving the chunk as regular Chunk of World here, so it can be loaded later on

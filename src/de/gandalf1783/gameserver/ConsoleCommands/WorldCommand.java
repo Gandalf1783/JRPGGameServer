@@ -8,17 +8,54 @@ import de.gandalf1783.gameserver.listener.ClientInteractions;
 import de.gandalf1783.gameserver.objects.BasicResponse;
 import de.gandalf1783.gameserver.objects.Pos;
 import de.gandalf1783.gameserver.threads.ConsoleRunnable;
+import de.gandalf1783.gameserver.tiles.Tile;
+import de.gandalf1783.gameserver.world.World;
+import org.fusesource.jansi.Ansi;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 public class WorldCommand implements Command {
+
+
     @Override
     public int execute(String[] args) {
         if(args.length == 1) {
-            if (args[0].equalsIgnoreCase("dim")) {
+            if(args[0].equalsIgnoreCase("createimage")) {
+
+                ConsoleRunnable.println("Creating Image of the Map...", Ansi.Color.YELLOW);
+
+                int[][] finalArray = World.generateMap(Main.getWorldInstance().getSeed(), Main.getWorldInstance().getWorldChunkSize()*16);
+
+                BufferedImage bufferedImage = new BufferedImage(finalArray.length, finalArray.length,
+                        BufferedImage.TYPE_INT_RGB);
+
+                for(int x = 0; x < finalArray.length; x++) {
+                    for(int y = 0; y < finalArray.length; y++) {
+
+                        bufferedImage.setRGB(x,y, getColorForTile(finalArray[x][y]));
+
+                    }
+                }
+
+                File outputfile = new File("image.jpg");
+                try {
+                    ImageIO.write(bufferedImage, "jpg", outputfile);
+                    ConsoleRunnable.println("Wrote image to image.jpg", Ansi.Color.GREEN);
+                } catch (IOException e) {
+                    ConsoleRunnable.println("An Error has occured while writing the image: "+e.getMessage(), Ansi.Color.RED);
+                    return -1;
+                }
+
+                return 0;
+            } else if (args[0].equalsIgnoreCase("dim")) {
                 Iterator it = Main.getWorldInstance().getUuidEntityMap().entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry pair = (Map.Entry) it.next();
@@ -137,5 +174,13 @@ public class WorldCommand implements Command {
         } else {
             return CommandError.TOO_MANY_ARGS;
         }
+    }
+
+    private static int getColorForTile(int tile) {
+        Tile t = Tile.tiles[tile];
+        if(t.getC() == null) {
+            return new Color(0, 0, 0, 0).getRGB();
+        }
+        return t.getC().getRGB();
     }
 }

@@ -1,8 +1,10 @@
 package de.gandalf1783.gameserver.ConsoleCommands;
 
+import com.esotericsoftware.kryonet.Connection;
 import de.gandalf1783.gameserver.core.Main;
 import de.gandalf1783.gameserver.entities.statics.Cactus;
 import de.gandalf1783.gameserver.entities.statics.Rock;
+import de.gandalf1783.gameserver.listener.ClientInteractions;
 import de.gandalf1783.gameserver.objects.BasicResponse;
 import de.gandalf1783.gameserver.objects.Pos;
 import de.gandalf1783.gameserver.threads.ConsoleRunnable;
@@ -29,10 +31,11 @@ public class SpawnCommand implements Command {
         r.setPos(pos);
         r.setHealth(10);
         Main.getWorldInstance().getUuidEntityMap().put(r.getUuid().toString(), r);
-        BasicResponse resp = new BasicResponse();
-        resp.text = "ENTITIES_UPDATE";
-        Main.getServer().sendToAllTCP(resp);
-        ConsoleRunnable.println("[SPAWN] - Send ENTITIES_UPDATE");
+
+        for(Connection conn : Main.getServer().getConnections()) {
+            ClientInteractions.sendAddEntity(r,conn);
+            ClientInteractions.sendAddEntity(c,conn);
+        }
         return 0;
     }
 

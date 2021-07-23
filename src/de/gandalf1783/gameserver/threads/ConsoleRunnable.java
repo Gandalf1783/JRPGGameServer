@@ -172,7 +172,7 @@ public class ConsoleRunnable implements Runnable {
     public static void printToLog(String s) {
         try {
             if(Log.isLogStarted()) {
-                Log.getLogWriter().write(s);
+                Log.getLogWriter().write(s+"\n");
                 Log.getLogWriter().flush();
             }
         } catch (IOException e) {
@@ -195,6 +195,6 @@ public class ConsoleRunnable implements Runnable {
         }
         String out = Ansi.ansi().fg(c).bold().a(s).reset().toString();
         lineReader.printAbove(out);
-        //printToLog(s);
+        printToLog(s);
     }
 }

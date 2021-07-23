@@ -55,6 +55,7 @@ public class Main {
     public static final int ITEM_SIZE = 32;
 
     public static void main(String[] args) {
+        Log.startLog();
         currentPlayers = 0;
         maxPlayers = 15;
 
@@ -111,8 +112,7 @@ public class Main {
             server = new Server(65536,32768);
             server.start();
             kryo = server.getKryo();
-
-
+            
             kryo.register(BasicRequest.class);
             kryo.register(BasicResponse.class);
             kryo.register(Pos.class);
@@ -126,7 +126,7 @@ public class Main {
             kryo.register(int[].class);
 
 
-            server.bind(54555, 54777);
+            server.bind(54555);
             server.addListener(new ServerListener());
         } catch (IOException e) {
             ConsoleRunnable.println("> Could not bind the Port. Please check if you already have a 2nd Instance of this Server running.", Ansi.Color.RED);
@@ -183,6 +183,7 @@ public class Main {
             String separator = System.getProperty("file.separator");
 
             String fullPath = path + separator + "world.obj";
+
 
 
             FileOutputStream fos2 = new FileOutputStream(path + separator + "world.obj");

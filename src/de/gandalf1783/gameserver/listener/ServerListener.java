@@ -48,15 +48,6 @@ public class ServerListener extends Listener {
                 */
                 if(request.text.equalsIgnoreCase("ENTITIES?")) {
 
-                    //Sending all Players...
-                    for(Connection c : Main.getServer().getConnections()) {
-                        if(c != connection) {
-                            UUID uuid = Main.getUuidHashMap().get(c);
-                            Player p = (Player) Main.getWorldInstance().getUuidEntityMap().get(uuid.toString());
-                            ClientInteractions.sendAddPlayer(p, connection);
-                        }
-                    }
-
                     for(Entity e : Main.getWorldInstance().getUuidEntityMap().values()) {
                         if(e == null) {
                             continue;

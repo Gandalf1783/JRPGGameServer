@@ -12,7 +12,7 @@ public class Chunk implements Serializable {
     private Rectangle rect;
 
     public Chunk() {
-        rect = new de.gandalf1783.quadtree.Rectangle(chunkX*16,chunkY*16, (chunkX+1)*16, (chunkY+1)*16);
+        rect = new de.gandalf1783.quadtree.Rectangle(chunkX*16*53,chunkY*16*53, (chunkX+1)*16*53, (chunkY+1)*16*53);
     }
 
     public void setBlock(int x, int y, int z, int blockid) {

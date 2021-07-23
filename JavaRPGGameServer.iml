@@ -11,7 +11,6 @@
     <orderEntry type="library" name="jline-3.16.0" level="project" />
     <orderEntry type="library" name="kryonet-2.21-all" level="project" />
     <orderEntry type="library" name="jansi-1.17.1" level="project" />
-    <orderEntry type="library" name="gdx" level="project" />
     <orderEntry type="library" name="QuadTreeLibrary" level="project" />
   </component>
 </module>

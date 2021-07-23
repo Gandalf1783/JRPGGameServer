@@ -29,8 +29,13 @@ public class Generation {
         for(int x = 0; x < valuesStep1.length; x++) {
             for(int y = 0; y < valuesStep1.length; y++) {
 
-                finalArray[x][y] = valuesStep1[x][y];
-
+                if(valuesStep1[x][y] == valuesStep2[x][y]) {
+                    finalArray[x][y] = valuesStep1[x][y];
+                } else if(valuesStep2[x][y] != 0 ) {
+                    finalArray[x][y] = valuesStep2[x][y];
+                } else {
+                    finalArray[x][y] = valuesStep1[x][y];
+                }
             }
         }
 
@@ -39,7 +44,7 @@ public class Generation {
 
     /**
      * STEP 1 OF WORLD GEN
-     * Puts Water (Seas) (6) onto the Land (0) and Sand (3). Might not create tunnels or something like that.
+     * Puts Water (Seas) (6) onto the Land (0) and Sand (3). Might not create rivers or something like that.
      *
      */
     public static int[][] convertValuesToLandWaterMap(double[][] values) {

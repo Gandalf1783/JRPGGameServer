@@ -9,7 +9,7 @@ public class Tile {
 	
 	public static Tile[] tiles = new Tile[256];
 
-	public static Tile grassTile = new GrassTile(0);
+	public static Tile air0 = new Air(0);
 	public static Tile dirtTile = new DirtTile(1);
 	public static Tile rockTile = new RockTile(2);
 	public static Tile sandTile = new SandTile(3);
@@ -21,7 +21,8 @@ public class Tile {
 	public static Tile waterfall20 = new Waterfall20(20);
 	public static Tile waterfall21 = new Waterfall21(21);
 
-	public static Tile air200 = new Air(200);
+	public static Tile grassTile = new GrassTile(200);
+
 
 
 	//CLASS
@@ -30,7 +31,8 @@ public class Tile {
 
 	protected final int id;
 	protected boolean isSolid;
-	
+	protected Color c; // Represents Tile on the Map.
+
 	public Tile(int id){
 		this.isSolid = false;
 		this.id = id;
@@ -48,5 +50,12 @@ public class Tile {
 	public int getId(){
 		return id;
 	}
-	
+
+	public Color getC() {
+		return c;
+	}
+
+	public void setC(Color c) {
+		this.c = c;
+	}
 }

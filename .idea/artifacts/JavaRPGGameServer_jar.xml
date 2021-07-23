@@ -4,7 +4,6 @@
     <root id="archive" name="JavaRPGGameServer.jar">
       <element id="module-output" name="JavaRPGGameServer" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../API/QuadTreeLibrary.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../../API/gdx.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jline-3.16.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jline-terminal-jna-3.20.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../API/jna-4.5.1.jar" path-in-jar="/" />
