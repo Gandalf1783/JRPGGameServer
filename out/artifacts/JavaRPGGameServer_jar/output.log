@@ -1,0 +1,18 @@
+[MAIN] (startLog): CREATED FOR BOOT AT Tue Jul 13 12:07:57 CEST 2021
+> Console initiated.
+> Trying to load world from /home/user/world.obj
+> World loaded.
+> Server Ready.
+Statistics Thread started.
+Initiated GenerationQueue
+Execution Error: This Command does not exist.
+Execution Error: This Command does not exist.
+Execution Error: This subcommand does not exist.
+> Trying to load world from /home/user/world.obj
+> World loaded.
+[WORLD] Saving world and crunching some numbers....
+[WORLD] World has been saved to /home/user/world.obj
+Shutdown initiated.
+[WORLD] Saving world and crunching some numbers....
+[WORLD] World has been saved to /home/user/world.obj
+Server will exit now.
