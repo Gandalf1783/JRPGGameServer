@@ -1,6 +1,6 @@
 # JRPGGameServer
 
-This is a server for the https://github.com/Gandalf1783/JRPG Game. 
+This is a server for the https://github.com/Gandalf1783/JRPG Game.
 
 You can download and compile this.
 
@@ -28,12 +28,14 @@ QuadTreeLibrary (Mine, you can find the releases on my repo)
 ---
 
 ### Known Bugs:
-  - The Tiles assigning to the correct Chunk does not work (has to be redone)
-  - Sending all Players to a new Player is not done correctly!
+- Sending all Players to a new Player is not done correctly!
+- Not a bug, but seed has to be determined when no world is loaded randomly.
+- Command world createimage does not always reflect the current world with the current seed.
 
+### Things to Work on:
+- Security-Features during Login-Process
+- API for confirming Users Identity
 
-### Things to Work on: 
-  - Security-Features during Login-Process
-  - API for confirming Users Identity
-  
-  
+### Fixed:
+- Chunkgeneration now correctly works.
+    
