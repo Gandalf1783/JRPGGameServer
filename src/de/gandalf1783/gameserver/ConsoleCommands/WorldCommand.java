@@ -49,14 +49,9 @@ public class WorldCommand implements Command {
 
                             for(int tileX = 0; tileX < 16; tileX++) {
                                 for(int tileZ = 0; tileZ < 16; tileZ++) {
-
                                     int tile = c.getBlock(tileX, 1 , tileZ);
 
-                                    System.out.println("Draw at "+((actualChunkX*16)+tileX)+ "|"+((actualChunkY*16)+tileZ));
-
                                     bufferedImage.setRGB((actualChunkX*16)+tileX,(actualChunkY*16)+tileZ, getColorForTile(tile));
-
-
                                 }
                             }
                     }

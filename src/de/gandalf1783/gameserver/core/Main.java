@@ -163,13 +163,9 @@ public class Main {
 
             if(mapLoaded) {
                 w2.setSeed(w.getSeed());
-                System.out.println("Took seed from existing world");
             } else {
                 w2.setSeed(Generation.SEED);
-                System.out.println("This is a new world, imma get it from generation.seed!");
             }
-
-            System.out.println("Seed is "+w2.getSeed());
 
             w2.setUuidEntityMap(w.getUuidEntityMap());
             w2.setInventoryHashMap(w.getInventoryHashMap());

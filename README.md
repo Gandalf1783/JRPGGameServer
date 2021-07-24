@@ -24,14 +24,10 @@ MYSQL-CONNECTOR-5.1.49
 
 QuadTreeLibrary (Mine, you can find the releases on my repo)
 
-
 ---
 
 ### Known Bugs:
-- Chunkgeneration always creates the whole map, rather than just a part of it. Will take exponentially more time with a larger world.
-- Sending all Players to a new Player is not done correctly!
 - Not a bug, but seed has to be determined when no world is loaded randomly.
-- Command world createimage does not always reflect the current world with the current seed.
 
 ### Things to Work on:
 - Security-Features during Login-Process
@@ -39,4 +35,7 @@ QuadTreeLibrary (Mine, you can find the releases on my repo)
 
 ### Fixed:
 - Chunkgeneration now correctly works.
+- Chunkgeneration always creates the whole map, rather than just a part of it. Will take exponentially more time with a larger world.
+- Command world createimage does not always reflect the current world with the current seed.
+- Sending all Players to a new Player is not done correctly! (This Bug could reappear!)
     

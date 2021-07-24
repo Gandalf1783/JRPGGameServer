@@ -13,7 +13,6 @@ public class BasicRequestHandler {
 
     public static void executeResponse(BasicRequest req, Connection conn) {
         if(!executorHashMap.containsKey(req.text)) {
-            System.out.println("Request \""+req.text+"\" is not known.");
             return;
         }
         executorHashMap.get(req.text).execute(req, conn);
@@ -21,6 +20,5 @@ public class BasicRequestHandler {
 
     public static void registerResponse(String command, BasicRequestExecutor executor) {
         executorHashMap.put(command, executor);
-        System.out.println("Registered Response for \""+command+"\"");
     }
 }
