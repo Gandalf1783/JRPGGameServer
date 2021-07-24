@@ -100,7 +100,7 @@ public class ConsoleRunnable implements Runnable {
 
                     ));
 
-            terminal = TerminalBuilder.builder().system(true).dumb(true).encoding(Charset.forName("UTF-8")).name("Terminal").jna(true).jansi(true).build();
+            terminal = TerminalBuilder.builder().system(true).dumb(true).encoding(StandardCharsets.UTF_8).name("Terminal").jna(true).jansi(true).build();
             lineReader = LineReaderBuilder.builder().terminal(this.terminal).completer(aggregateCompleter).build();
 
         } catch (IOException e) {
@@ -112,6 +112,7 @@ public class ConsoleRunnable implements Runnable {
         ConsoleRunnable.println("> Console initiated.");
 
         while (true) {
+
             try {
 
                 String command = lineReader.readLine(prompt);
@@ -119,6 +120,9 @@ public class ConsoleRunnable implements Runnable {
 
                 int commandStatus = 0;
                 if(!(data.length >= 1)) continue;
+
+                if(command.replace("\\s+","").equalsIgnoreCase(""))
+                    continue;
 
                 if(commandList.containsKey(data[0])) {
 
@@ -132,9 +136,7 @@ public class ConsoleRunnable implements Runnable {
                     commandStatus = c.execute(args);
 
                 } else {
-
                     commandStatus = CommandError.COMMAND_DOES_NOT_EXIST;
-
                 }
 
                 if(commandStatus == 1)

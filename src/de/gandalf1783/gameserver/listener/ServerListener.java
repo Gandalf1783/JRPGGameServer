@@ -1,6 +1,7 @@
 package de.gandalf1783.gameserver.listener;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import de.gandalf1783.gameserver.MySQL.SQLUtils;
 import de.gandalf1783.gameserver.core.Main;
@@ -25,8 +26,6 @@ public class ServerListener extends Listener {
         try {
             if(o instanceof BasicRequest) {
                 BasicRequest request = (BasicRequest) o;
-
-
 
                 BasicRequestHandler.executeResponse(request, connection);
 
@@ -61,6 +60,19 @@ public class ServerListener extends Listener {
                         }
 
                     }
+
+                    for(Connection c : Main.getServer().getConnections()) {
+                        if(c != connection) {
+                            UUID uuid = Main.getUuidHashMap().get(c);
+                            if(uuid == null)
+                                return;
+                            if(Main.getWorldInstance().getUuidEntityMap().containsKey(uuid.toString())) {
+                                Player p = (Player) Main.getWorldInstance().getUuidEntityMap().get(uuid.toString());
+                                ClientInteractions.sendAddPlayer(p, connection);
+                            }
+                        }
+                    }
+
                     //Sending Players Spawn Position
                     ClientInteractions.sendPlayerSpawnPos(connection);
 

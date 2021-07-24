@@ -8,11 +8,8 @@ import de.gandalf1783.gameserver.networkhandler.LoginExecutor;
 import de.gandalf1783.gameserver.networkhandler.RequestChunkExecutor;
 import de.gandalf1783.gameserver.objects.*;
 import de.gandalf1783.gameserver.statics.DBNames;
-import de.gandalf1783.gameserver.threads.ConsoleRunnable;
+import de.gandalf1783.gameserver.threads.*;
 import de.gandalf1783.gameserver.listener.ServerListener;
-import de.gandalf1783.gameserver.threads.EventRunnable;
-import de.gandalf1783.gameserver.threads.GenerationQueueThread;
-import de.gandalf1783.gameserver.threads.StatsRunnable;
 import de.gandalf1783.gameserver.world.Chunk;
 import de.gandalf1783.gameserver.world.Generation;
 import de.gandalf1783.gameserver.world.World;
@@ -44,8 +41,6 @@ public class Main {
     private static OneToOneMap<Connection, UUID> uuidHashMap = new OneToOneMap<>();
 
     private static World w;
-
-    private static long seed = new Random().nextInt(1000000);
 
     private static Boolean mapLoaded = false;
 
@@ -138,13 +133,13 @@ public class Main {
         Thread eventThread = new Thread(eventRunnable);
         eventThread.start();
 
-       Timer saveTimer = new Timer();
-       saveTimer.schedule(new SaveTimer(), 15000, 300000);
+        Timer saveTimer = new Timer();
+        saveTimer.schedule(new SaveTimer(), 15000, 300000);
 
-       statsThread.start();
-       generationThread.start();
+        statsThread.start();
+        generationThread.start();
 
-       ConsoleRunnable.println("> Server Ready.");
+        ConsoleRunnable.println("> Server Ready.");
     }
 
     /**
@@ -156,7 +151,7 @@ public class Main {
     }
 
     /**
-     * Saves the current World to a File at C:User\USERNAME\world.dat or /home/USERNAME/world.dat etc.
+     * Saves the current World to a File at C:User\USERNAME\world.dat or /home/USERNAME/world.dat based on the OS.
      */
     public static void saveWorldToFile() {
         try {
@@ -168,9 +163,13 @@ public class Main {
 
             if(mapLoaded) {
                 w2.setSeed(w.getSeed());
+                System.out.println("Took seed from existing world");
             } else {
-                w2.setSeed(seed);
+                w2.setSeed(Generation.SEED);
+                System.out.println("This is a new world, imma get it from generation.seed!");
             }
+
+            System.out.println("Seed is "+w2.getSeed());
 
             w2.setUuidEntityMap(w.getUuidEntityMap());
             w2.setInventoryHashMap(w.getInventoryHashMap());
@@ -178,15 +177,12 @@ public class Main {
             w2.setBoundaries(w.getBoundaries());
             w2.setWorldChunkSize(w.getWorldChunkSize());
 
-
             String path = System.getProperty("user.home");
             String separator = System.getProperty("file.separator");
 
             String fullPath = path + separator + "world.obj";
 
-
-
-            FileOutputStream fos2 = new FileOutputStream(path + separator + "world.obj");
+            FileOutputStream fos2 = new FileOutputStream(fullPath);
             ObjectOutputStream oos = new ObjectOutputStream(fos2);
 
             oos.writeObject(w2);
@@ -233,7 +229,7 @@ public class Main {
             getWorldInstance().setUuidEntityMap(new HashMap<>());
 
             // Copy all variables into WorldInstance
-            setSeed(w2.getSeed());
+            Generation.SEED = w2.getSeed();
             getWorldInstance().setUuidEntityMap(w2.getUuidEntityMap());
             getWorldInstance().setInventoryHashMap(w2.getInventoryHashMap());
             getWorldInstance().setWorldChunkSize(w2.getWorldChunkSize());
@@ -281,9 +277,6 @@ public class Main {
         return uuidHashMap;
     }
 
-    public static void setSeed(long seed) {
-       Main.seed = seed;
-    }
     public static String getVersion() {
         return VERSION;
     }

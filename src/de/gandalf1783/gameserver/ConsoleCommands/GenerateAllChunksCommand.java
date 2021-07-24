@@ -22,20 +22,23 @@ public class GenerateAllChunksCommand implements Command {
 
                 if(answer.equalsIgnoreCase("yes") && userWasAsked) {
                     userWasAsked = false;
-                    ConsoleRunnable.println("Generating all chunks. \nYou will not see the process or any output related to when a chunk has been calculated. \n", Ansi.Color.GREEN);
+
+                    ConsoleRunnable.println("Not supported yet.", Ansi.Color.RED);
+                    return 0;
+
+                    /*
+                    *                     ConsoleRunnable.println("Generating all chunks. \nYou will not see the process or any output related to when a chunk has been calculated. \n", Ansi.Color.GREEN);
 
                     new Thread(()-> {
                         int chunks = Main.getWorldInstance().getWorldChunkSize();
                         int chunkHalf = Main.getWorldInstance().getWorldChunkSize()/2;
-
-                        int[][] noiseMap = World.generateMap(Main.getWorldInstance().getSeed(), Main.getWorldInstance().getWorldChunkSize()*16);
 
                         long start = System.currentTimeMillis();
                         ConsoleRunnable.println("[ChunkGenerator] Beginning now..");
 
                         for(int x = 0-chunkHalf; x < chunks-chunkHalf; x++) {
                             for(int y = 0-chunkHalf; y < chunks-chunkHalf; y++) {
-                                Main.getWorldInstance().getChunk(x,y, noiseMap);
+                        //        Main.getWorldInstance().getChunk(x,y, noiseMap);
                             }
                         }
 
@@ -43,6 +46,9 @@ public class GenerateAllChunksCommand implements Command {
                         ConsoleRunnable.println("[ChunkGenerator] Finished loading all Chunks in "+((end-start)/1000)+" seconds!", Ansi.Color.GREEN);
                     }).start();
                     return 0;
+                    *
+                    * */
+
                 } else if(answer.equalsIgnoreCase("no") && userWasAsked) {
                     userWasAsked = false;
                     ConsoleRunnable.println("Generating all chunks has been cancelled.", Ansi.Color.GREEN);

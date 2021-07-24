@@ -3,15 +3,10 @@ package de.gandalf1783.gameserver.world;
 import de.gandalf1783.gameserver.entities.Entity;
 import de.gandalf1783.gameserver.inventory.Inventory;
 import de.gandalf1783.gameserver.threads.ConsoleRunnable;
-import de.gandalf1783.gameserver.tiles.Tile;
-import org.fusesource.jansi.Ansi;
 import de.gandalf1783.quadtree.Rectangle;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import org.fusesource.jansi.Ansi;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -37,16 +32,12 @@ public class World implements Serializable {
         boundaries = new Rectangle(worldChunkSize*16/2,worldChunkSize*16/2,worldChunkSize*16,worldChunkSize*16);
     }
 
-
-
-
-
-    public static int[][] generateMap(long seed,int iterations) {
+    public static int[][] generatePartOfMap(long seed,int iterations, int offsetX, int offsetY) {
         Generation.SEED = seed;
         Generation.OCEAN_SEED = seed+1;
 
-        double[][] landNoiseMap = Generation.generateNoiseMap(130,iterations);
-        double[][] oceanNoiseMap = Generation.generateNoiseMap(120,iterations);
+        double[][] landNoiseMap = Generation.generateNoiseMap(130, iterations, offsetX, offsetY);
+        double[][] oceanNoiseMap = Generation.generateNoiseMap(1000 ,iterations, offsetX, offsetY);
 
         int[][] landTileMap = Generation.convertValuesToLandWaterMap(landNoiseMap); // Step 1
         int[][] oceanOverlayMap = Generation.convertValuesToLandOceanMap(oceanNoiseMap); // Step 2
@@ -58,30 +49,7 @@ public class World implements Serializable {
 
 
     public void getNewMap() {
-        ConsoleRunnable.println("Creating a new Map... ", Ansi.Color.RED);
-        long start = System.currentTimeMillis();
-
-        seed = 564981656646512130L; // TODO: Temporary SEED!
-
-        int[][] finalArray = generateMap(this.seed, this.worldChunkSize*16);
-
-        long end = System.currentTimeMillis();
-        ConsoleRunnable.println("Took "+(end-start)+" ms to generate!");
-    }
-
-    public Chunk getChunk(int x, int y, int[][] tileMapFromNoiseGenerator) {
-
-        int actualChunkX = x+(worldChunkSize/2), actualChunkY = y+(worldChunkSize/2);
-
-        if(!((actualChunkX >= 0 ) && (actualChunkX < worldChunkSize) && (actualChunkY >= 0) && (actualChunkY < worldChunkSize))) {
-            return null;
-        }
-
-        if(chunks[actualChunkX][actualChunkY] != null) { // If the Chunk exists, return it. Otherwise, generate a new Chunk!
-            return chunks[actualChunkX][actualChunkY];
-        } else {
-            return generateChunk(x, y, tileMapFromNoiseGenerator);
-        }
+        ConsoleRunnable.println("Currently not supported.", Ansi.Color.RED);
     }
 
     public Chunk getChunk(int x, int y) {
@@ -99,43 +67,13 @@ public class World implements Serializable {
         }
     }
 
-    public Chunk generateChunk(int x, int y, int[][] tileMapFromNoiseGenerator) {
-        // TODO: Generate Chunk and return then!
-        // TODO: ATTENTION: DO THIS IN A NEW THREAD!!!!
-        int actualChunkX = x+(worldChunkSize/2), actualChunkY = y+(worldChunkSize/2);
-
-        Chunk c = new Chunk();
-
-        c.setChunkX(x);
-        c.setChunkY(y);
-
-        byte chunkTileX = 0, chunkTileZ = 0; // Only counts to 16, nothing more
-
-        for(int tileX = (actualChunkX)*16; tileX < (1+actualChunkX)*16; tileX++) {
-            chunkTileX = 0;
-            for(int tileY = (actualChunkY)*16; tileY < (1+actualChunkY)*16; tileY++) {
-                
-                c.setBlock(chunkTileX, 0, chunkTileZ, 2); // Set Underlaying Structure as Rock
-                c.setBlock(chunkTileX, 1, chunkTileZ, tileMapFromNoiseGenerator[tileX][tileY]); // The one the player sees if isnt air!
-
-                chunkTileX++;
-            }
-
-            chunkTileZ++;
-        }
-
-        chunks[actualChunkX][actualChunkY] = c; // Saving the chunk as regular Chunk of World here, so it can be loaded later on
-
-        return c;
-    }
-
     public Chunk generateChunk(int x, int y) {
         // TODO: Generate Chunk and return then!
         // TODO: ATTENTION: DO THIS IN A NEW THREAD!!!!
         int actualChunkX = x+(worldChunkSize/2), actualChunkY = y+(worldChunkSize/2);
 
 
-        int[][] tileMapFromNoiseGenerator = generateMap(this.seed, this.worldChunkSize*16);
+        int[][] tileMapFromNoiseGenerator = generatePartOfMap(this.seed, 16, actualChunkX*16, actualChunkY*16);
 
         Chunk c = new Chunk();
 
@@ -145,7 +83,7 @@ public class World implements Serializable {
         for(byte tileInChunkZ = 0; tileInChunkZ < 16; tileInChunkZ++) {
             for(byte tileInChunkX = 0; tileInChunkX < 16; tileInChunkX++) {
 
-                int tile = tileMapFromNoiseGenerator[(actualChunkX*16) + tileInChunkX][(actualChunkY*16) + tileInChunkZ];
+                int tile = tileMapFromNoiseGenerator[tileInChunkX][tileInChunkZ];
 
                 c.setBlock(tileInChunkX, 0, tileInChunkZ, 2);
                 c.setBlock(tileInChunkX, 1, tileInChunkZ, tile);
@@ -242,6 +180,7 @@ public class World implements Serializable {
     }
 
     public void setChunk(int x, int y, Chunk c) {
-        this.chunks[x][y] = c;
+        int chunkOffset = worldChunkSize/2;
+        this.chunks[x+chunkOffset][y+chunkOffset] = c;
     }
 }

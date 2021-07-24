@@ -80,6 +80,7 @@ public class ClientInteractions {
         resp.data = p.getPos().getX()+"#"+p.getPos().getY()+"#"+p.getHealth()+"#"+p.getUuid()+"#"+p.getPos().getDimensionID()+"#"+p.getName();
         sendObject(resp, conn);
     }
+
     public static void broadcastExceptAddPlayer(Player p, Connection conn, Server server) {
         BasicResponse resp = new BasicResponse();
         resp.text = "PLAYERADD";

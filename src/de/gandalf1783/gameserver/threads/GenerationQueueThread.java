@@ -29,6 +29,7 @@ public class GenerationQueueThread implements Runnable {
             try {
 
                 if(chunkRequested.size() != 0) {
+
                     for(String s: chunkRequested) {
                         if(s == null) {
                             chunkRequested.remove(s);
@@ -54,7 +55,7 @@ public class GenerationQueueThread implements Runnable {
 
                             Chunk c = Main.getWorldInstance().getChunk(chunkX, chunkY);
 
-                            Main.getWorldInstance().setChunk(chunkX+indexOffset, chunkY+indexOffset, c);
+                            Main.getWorldInstance().setChunk(chunkX, chunkY, c);
 
                             long end = System.currentTimeMillis();
 

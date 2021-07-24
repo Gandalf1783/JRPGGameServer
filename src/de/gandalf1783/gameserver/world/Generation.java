@@ -76,20 +76,17 @@ public class Generation {
 
         for(int x = 0; x < values.length; x++) {
             for(int y = 0; y < values.length; y++) {
-
-                if(values[x][y] > 0.8) {
+                if(values[x][y] > 0.4) {
                     output[x][y] = 5; // Ocean (DeepWaterTile)
-                } else if(values[x][y] > 0.79) {
+                } else if(values[x][y] > 0.37) {
                     output[x][y] = 6; // Water
-                } else if(values[x][y] > 0.78){
+                } else if(values[x][y] > 0.35){
                     output[x][y] = 3; // Sand
                 } else {
-                    output[x][y] = 0; // Nothing
+                    output[x][y] = 0;
                 }
-
             }
         }
-
         return output;
     }
 
@@ -107,6 +104,26 @@ public class Generation {
         for(int x = 0; x < iterations; x++) {
             for(int y = 0; y < iterations; y++) {
                 values[x][y] = noise.noise2(x/zoomFactor, y/zoomFactor);
+            }
+        }
+
+        return values;
+    }
+
+    /**
+     * Generates a part from the Noise Map from given Seed (Generation.SEED).
+     * @param zoomFactor Zoom-Factor to use
+     * @param iterations Iteration to do. (Specifies Array-Size in X/Y Direction.
+     * @return Values
+     */
+    public static double[][] generateNoiseMap(double zoomFactor, int iterations, int offsetX, int offsetY) {
+        OpenSimplex2S noise = new OpenSimplex2S(SEED);
+
+        double[][] values = new double[16][16];
+
+        for(int x = 0; x < iterations; x++) {
+            for(int y = 0; y < iterations; y++) {
+                values[x][y] = noise.noise2((x+offsetX)/zoomFactor, (y+offsetY)/zoomFactor);
             }
         }
 

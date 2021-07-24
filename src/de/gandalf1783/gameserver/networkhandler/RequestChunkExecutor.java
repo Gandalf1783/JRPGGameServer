@@ -6,6 +6,7 @@ import de.gandalf1783.gameserver.listener.ClientInteractions;
 import de.gandalf1783.gameserver.objects.BasicRequest;
 import de.gandalf1783.gameserver.threads.ConsoleRunnable;
 import de.gandalf1783.gameserver.threads.GenerationQueueThread;
+import org.fusesource.jansi.Ansi;
 
 public class RequestChunkExecutor extends BasicRequestExecutor {
 

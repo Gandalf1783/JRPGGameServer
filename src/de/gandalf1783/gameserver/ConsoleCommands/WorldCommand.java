@@ -9,6 +9,8 @@ import de.gandalf1783.gameserver.objects.BasicResponse;
 import de.gandalf1783.gameserver.objects.Pos;
 import de.gandalf1783.gameserver.threads.ConsoleRunnable;
 import de.gandalf1783.gameserver.tiles.Tile;
+import de.gandalf1783.gameserver.world.Chunk;
+import de.gandalf1783.gameserver.world.Generation;
 import de.gandalf1783.gameserver.world.World;
 import org.fusesource.jansi.Ansi;
 
@@ -32,16 +34,31 @@ public class WorldCommand implements Command {
 
                 ConsoleRunnable.println("Creating Image of the Map...", Ansi.Color.YELLOW);
 
-                int[][] finalArray = World.generateMap(Main.getWorldInstance().getSeed(), Main.getWorldInstance().getWorldChunkSize()*16);
+                int size = (Main.getWorldInstance().getWorldChunkSize()*16)+16;
 
-                BufferedImage bufferedImage = new BufferedImage(finalArray.length, finalArray.length,
+                BufferedImage bufferedImage = new BufferedImage(800,800,
                         BufferedImage.TYPE_INT_RGB);
 
-                for(int x = 0; x < finalArray.length; x++) {
-                    for(int y = 0; y < finalArray.length; y++) {
+                for(int x = -25; x < 25; x++) {
+                    for(int y = -25; y < 25; y++) {
+                        int actualChunkX = x+(Main.getWorldInstance().getWorldChunkSize()/2), actualChunkY = y+(Main.getWorldInstance().getWorldChunkSize()/2);
 
-                        bufferedImage.setRGB(x,y, getColorForTile(finalArray[x][y]));
+                            Chunk c = Main.getWorldInstance().getChunks()[actualChunkX][actualChunkY];
+                            if(c == null)
+                                continue;
 
+                            for(int tileX = 0; tileX < 16; tileX++) {
+                                for(int tileZ = 0; tileZ < 16; tileZ++) {
+
+                                    int tile = c.getBlock(tileX, 1 , tileZ);
+
+                                    System.out.println("Draw at "+((actualChunkX*16)+tileX)+ "|"+((actualChunkY*16)+tileZ));
+
+                                    bufferedImage.setRGB((actualChunkX*16)+tileX,(actualChunkY*16)+tileZ, getColorForTile(tile));
+
+
+                                }
+                            }
                     }
                 }
 
@@ -85,8 +102,6 @@ public class WorldCommand implements Command {
                 ConsoleRunnable.println(Main.getWorldInstance().getWorldChunkSize()+"");
                 return 0;
             } else if(args[0].equalsIgnoreCase("generate")) {
-
-                Main.getWorldInstance().setSeed(Main.getWorldInstance().getSeed());
                 Main.getWorldInstance().getNewMap();
 
                 Iterator it = Main.getWorldInstance().getUuidEntityMap().entrySet().iterator();
@@ -131,13 +146,13 @@ public class WorldCommand implements Command {
                 if(args[1].equalsIgnoreCase("rnd")) {
                     int i = new Random().nextInt(1000000);
                     ConsoleRunnable.println("> New Seed (used for next world-gen): "+i);
-                    Main.setSeed(i);
+                    Generation.SEED = i;
                     return 0;
                 } else {
                     try {
                         int i = Integer.parseInt(args[1]);
                         ConsoleRunnable.println("> New Seed (used for next world-gen): "+i);
-                        Main.setSeed(i);
+                       Generation.SEED = i;
                         return 0;
                     } catch (NumberFormatException e) {
                         return CommandError.NUMBER_FORMAT_EXCEPTION;
